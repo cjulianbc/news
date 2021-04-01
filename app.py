@@ -97,6 +97,13 @@ def index():
 	now_format = now.strftime("%d/%m/%Y %H:%M:%S")
 	an_hour_ago_format = an_hour_ago.strftime("%d/%m/%Y %H:%M:%S")
 
+	f = open('log.txt', 'a')
+	f.write(str(now))
+	f.write(str(an_hour_ago))
+	f.write(str(now_format))
+	f.write(str(an_hour_ago_format))
+	f.close()
+
 	results = list(collection.find({'date_time' : {'$gt' : an_hour_ago_format,'$lt' : now_format}}))
 	return render_template('index.html', company = '@CTVMontreal', sumaries = results)
 
