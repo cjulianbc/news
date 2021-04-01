@@ -124,5 +124,7 @@ def html_page(page):
 	return render_template(page)
 
 
-scheduler.add_job(id = 'findNews', func = findNews, trigger = 'interval', seconds = 120)
-scheduler.start()
+if __name__ == '__main__':
+	scheduler.add_job(id = 'findNews', func = findNews, trigger = 'interval', seconds = 120)
+	scheduler.start()
+	app.run()
