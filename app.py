@@ -6,6 +6,7 @@ import sumarizer
 import pymongo
 from pymongo import MongoClient
 from datetime import datetime, timedelta
+from pytz import timezone
 import csv
 import math
 import time
@@ -92,18 +93,12 @@ def home():
 
 @app.route('/index.html')
 def index():
-	now = datetime.now()
+	time_zone = timezone('US/Eastern')
+	now = datetime.now(time_zone)
+	print(now)
 	an_hour_ago = now - timedelta(hours = 2)
 	now_format = now.strftime("%d/%m/%Y %H:%M:%S")
 	an_hour_ago_format = an_hour_ago.strftime("%d/%m/%Y %H:%M:%S")
-
-	f = open('log.txt', 'a')
-	f.write(str(now))
-	f.write(str(an_hour_ago))
-	f.write(str(now_format))
-	f.write(str(an_hour_ago_format))
-	f.close()
-
 	results = list(collection.find({'date_time' : {'$gt' : an_hour_ago_format,'$lt' : now_format}}))
 	return render_template('index.html', company = '@CTVMontreal', sumaries = results)
 
